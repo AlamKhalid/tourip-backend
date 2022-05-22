@@ -1,4 +1,3 @@
-const _ = require("lodash");
 const bcrypt = require("bcryptjs");
 const express = require("express");
 const User = require("../models/users");
@@ -6,7 +5,7 @@ const router = express.Router();
 
 router.post("/", async(req, res) => {
     let user = await User.findOne({ email: req.body.email });
-    if (user) return res.status(400).send("User already exists");
+    if (user) return res.status(400).send("error");
     user = new User({
         email: req.body.email,
         password: req.body.password,
@@ -16,10 +15,7 @@ router.post("/", async(req, res) => {
     user.password = await bcrypt.hash(user.password, salt);
     await user.save();
     const token = user.generateAuthToken();
-    res
-        .header("x-auth-token", token)
-        .header("access-control-expose-headers", "x-auth-token")
-        .send(_.pick(user, ["name", "email"]));
+    res.send('success');
 });
 
 module.exports = router;
