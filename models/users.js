@@ -5,9 +5,12 @@ const config = require("config");
 const userSchema = new mongoose.Schema({
     email: { type: String, unique: true, required: true, trim: true },
     password: { type: String, required: true },
-    wishlist: [{ type: mongoose.Schema.Types.ObjectId, refPath: 'model_type' }],
-    visited: [{ type: mongoose.Schema.Types.ObjectId, refPath: 'model_type' }],
-    model_type: { type: String, enum: ['Place', 'Restaurant', 'Hotel'] }
+    wishlistPlaces: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Place' }],
+    visitedPlaces: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Place' }],
+    wishlistHotels: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Hotel' }],
+    visitedHotels: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Hotel' }],
+    wishlistRestaurants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant' }],
+    visitedRestaurants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant' }],
 });
 
 userSchema.methods.generateAuthToken = function() {
